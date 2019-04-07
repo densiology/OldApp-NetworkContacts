@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Network Contacts</string>
+    <string name="action_settings">Settings</string>
+    <string name="send_text">Send Text</string>
+	<string-array name="select_dialog_items">
+        <item>Call</item>
+        <item>Text</item>
+    </string-array>
+	<string name="confirmation_yes">Proceed</string>
+	<string name="confirmation_no">Cancel</string>
+	<string name="no_selected">Please check a contact.</string>
+    
+
+</resources>

@@ -1,0 +1,45 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/dennis/Development/Workspace/Android/Personal/DevProd/NetworkContacts/app/build/intermediates/res/merged/debug/values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "/Users/dennis/Development/Workspace/Android/Personal/DevProd/NetworkContacts/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "6,4,3,11,10,12,5",
+                        "startColumns": "1,4,4,1,1,1,4",
+                        "startOffsets": "211,113,58,376,326,424,166",
+                        "endLines": "9,4,3,11,10,12,5",
+                        "endColumns": "19,52,53,47,49,60,47",
+                        "endOffsets": "324,161,107,422,374,483,209"
+                    },
+                    "to": {
+                        "startLines": "2,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,253,306,360,411,464,528",
+                        "endLines": "5,8,9,10,11,12,13",
+                        "endColumns": "19,52,53,50,52,63,47",
+                        "endOffsets": "168,301,355,406,459,523,571"
+                    }
+                },
+                {
+                    "source": "/Users/dennis/Development/Workspace/Android/Personal/DevProd/NetworkContacts/app/src/main/res/values/colors.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "57,98",
+                        "endColumns": "39,39",
+                        "endOffsets": "92,133"
+                    },
+                    "to": {
+                        "startLines": "6,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "173,213",
+                        "endColumns": "39,39",
+                        "endOffsets": "208,248"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical" >
+	
+    
+    <LinearLayout
+  	    android:layout_width="match_parent"
+  	    android:layout_height="35dp"
+  	    android:orientation="horizontal" >
+	    <ToggleButton
+	        android:id="@+id/smart_button"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:textOn="SMART"
+	        android:textOff="SMART"
+	        android:textStyle="bold"
+	        android:checked="true"
+	        android:onClick="clickSmart" />
+	    <ToggleButton
+	        android:id="@+id/globe_button"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:textOn="GLOBE"
+	        android:textOff="GLOBE"
+	        android:textStyle="bold"
+	        android:checked="true"
+	        android:onClick="clickGlobe" />
+	    <ToggleButton
+	        android:id="@+id/sun_button"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:textOn="SUN"
+	        android:textOff="SUN"
+	        android:textStyle="bold"
+	        android:checked="true"
+	        android:onClick="clickSun" />
+	    <ToggleButton
+	        android:id="@+id/other_button"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:textOn="OTHER"
+	        android:textOff="OTHER"
+	        android:textStyle="bold"
+	        android:checked="true"
+	        android:onClick="clickOther" />
+  	</LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal" >
+	    <EditText
+	 	    android:id="@+id/filter_edittext"
+	 	    android:layout_weight="1"
+	 	    android:layout_width="0dp"
+	 	    android:layout_height="wrap_content"
+	 	    android:maxLines="1" />
+	    <Button 
+	        android:id="@+id/send_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/send_text" />
+    </LinearLayout>
+    
+  	<ListView
+	       android:id="@+id/contact_listview"
+	       android:layout_width="match_parent"
+	       android:layout_height="wrap_content" />
+
+</LinearLayout>
