@@ -65,7 +65,9 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-			checkPermissions();
+			if (checkPermissions()) {
+				initialize();
+			}
 		} else {
 			initialize();
 		}
@@ -230,7 +232,7 @@ public class MainActivity extends Activity
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
-	private void checkPermissions() {
+	private boolean checkPermissions() {
 		int result;
 		List<String> listPermissionsNeeded = new ArrayList<>();
 		for (String p : permissions) {
@@ -241,7 +243,9 @@ public class MainActivity extends Activity
 		}
 		if (!listPermissionsNeeded.isEmpty()) {
 			requestPermissions(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+			return false;
 		}
+		return true;
 	}
 
 	@Override
