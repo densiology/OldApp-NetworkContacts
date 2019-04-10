@@ -1,13 +1,15 @@
 # Network Contacts
 
-This is a phonebook app that classifies the telecom for each contact number.
+This is an Android phonebook app that classifies the telecom for each contact number.
 
 ## Development History
 
-I made this app in 2013, back when I started to learn Android development.
+* I made this app in 2013, back when I started to learn Android development.
+* Updated Gradle to make it run properly on Android Studio.
+* Added permission checking to make it run properly on Marshmallow and above.
 
 ## App Features
-
+![sc_Network Contacts 1 2](https://user-images.githubusercontent.com/12168036/55844959-58756a00-5b72-11e9-8f64-8f3be854b413.jpg)
 * Filter functionality for Smart, Globe, Sun and Others (the buttons on top)
 * Search-as-you-type (for contact names)
 * Call and SMS (long press a contact to show a pop-up)
