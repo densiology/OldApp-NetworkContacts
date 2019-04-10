@@ -1,8 +1,13 @@
 package com.example.networkcontacts;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds;
@@ -29,8 +34,15 @@ import android.graphics.BitmapFactory;
 
 public class MainActivity extends Activity
 {
+	public static final int MULTIPLE_PERMISSIONS = 10;
+	String[] permissions = new String[] {
+			Manifest.permission.READ_CONTACTS,
+			Manifest.permission.CALL_PHONE,
+			Manifest.permission.READ_PHONE_STATE,
+			Manifest.permission.SEND_SMS
+	};
+
 	private ContactAdapter adapter; //initialized in onCreate; the bridge between a List Item and ArrayList
-	private Context context; //the Context of this activity
 	protected String selectedNum; // for the long click; so it can be accessed by the dialog box
 	protected ArrayList<String> numbersAll; // for multiple texts; so it can be accessed by the dialog box
 	
@@ -52,18 +64,24 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		context = MainActivity.this;
-		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			checkPermissions();
+		} else {
+			initialize();
+		}
+	}
+
+	private void initialize() {
 		//initialize class variables
 		this.selectedNum = new String();
 		this.strOnEditText = new String();
 		this.numbersAll = new ArrayList<String>();
-		
+
 		/* Set references to the UI elements. */
 		ListView listView = (ListView)findViewById(R.id.contact_listview);
 		editText = (EditText)findViewById(R.id.filter_edittext);
 		Button buttonSend = (Button)findViewById(R.id.send_button);
-		
+
 		/* When item is tapped, toggle checked properties of CheckBox and Contact. */
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 			@Override
@@ -75,12 +93,12 @@ public class MainActivity extends Activity
 				viewHolder.getCheckBox().setChecked(contact.isChecked());
 			}
 		});
-		
+
 		// add PhoneStateListener
 		PhoneCallListener phoneListener = new PhoneCallListener();
 		TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 		telephonyManager.listen(phoneListener,PhoneStateListener.LISTEN_CALL_STATE);
-		
+
 		/* When item is long clicked, prompt if call or send message. */
 		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
 			@Override
@@ -89,32 +107,32 @@ public class MainActivity extends Activity
 				ContactAdapter.ContactHolder viewHolder = (ContactAdapter.ContactHolder) item.getTag();
 				selectedNum = viewHolder.getTextViewNumber().getText().toString();
 				new AlertDialog.Builder(MainActivity.this)
-				.setTitle("Choose action for " + viewHolder.getTextViewName().getText().toString())
-				.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener()
-				{
-					public void onClick(DialogInterface dialog, int which)
-					{
-						if (which == 0)
+						.setTitle("Choose action for " + viewHolder.getTextViewName().getText().toString())
+						.setItems(R.array.select_dialog_items, new DialogInterface.OnClickListener()
 						{
-							// Insert code here for call
-							Intent callIntent = new Intent(Intent.ACTION_CALL);
-							callIntent.setData(Uri.parse("tel:" + selectedNum));
-							startActivity(callIntent);
-						}
-						else if (which == 1)
-						{
-							// Insert code here for text
-							ArrayList<String> number = new ArrayList<String>();
-							number.add(selectedNum);
-							sendSms(number);
-						}
-					}
-				})
-				.show();
+							public void onClick(DialogInterface dialog, int which)
+							{
+								if (which == 0)
+								{
+									// Insert code here for call
+									Intent callIntent = new Intent(Intent.ACTION_CALL);
+									callIntent.setData(Uri.parse("tel:" + selectedNum));
+									startActivity(callIntent);
+								}
+								else if (which == 1)
+								{
+									// Insert code here for text
+									ArrayList<String> number = new ArrayList<String>();
+									number.add(selectedNum);
+									sendSms(number);
+								}
+							}
+						})
+						.show();
 				return true;
 			}
 		});
-		
+
 		/* Sets the whole List View. */
 		try
 		{
@@ -126,7 +144,7 @@ public class MainActivity extends Activity
 		catch(NullPointerException e)
 		{
 		}
-		
+
 		/* When the Button is clicked.. */
 		buttonSend.setOnClickListener(new Button.OnClickListener(){
 			@Override
@@ -146,7 +164,7 @@ public class MainActivity extends Activity
 						strNames = strNames + contact.getName() + "\n";
 					}
 				}
-				
+
 				if (numbers.size() > 0)
 				{
 					// 'numbers' cannot be accessed on the onClick, so here's a turnaround
@@ -155,22 +173,22 @@ public class MainActivity extends Activity
 					strNames = strNames.substring(0, strNames.lastIndexOf("\n"));
 					// show confirmation dialog
 					new AlertDialog.Builder(MainActivity.this)
-					.setMessage("Send a text message to contact(s) below?\n\n" + strNames)
-					.setPositiveButton(R.string.confirmation_yes, new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog, int which)
-						{
-							sendSms(numbersAll);
-						}
-					})
-					.setNegativeButton(R.string.confirmation_no, new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog, int which)
-						{
-							dialog.dismiss();
-						}
-					})
-					.show();
+							.setMessage("Send a text message to contact(s) below?\n\n" + strNames)
+							.setPositiveButton(R.string.confirmation_yes, new DialogInterface.OnClickListener()
+							{
+								public void onClick(DialogInterface dialog, int which)
+								{
+									sendSms(numbersAll);
+								}
+							})
+							.setNegativeButton(R.string.confirmation_no, new DialogInterface.OnClickListener()
+							{
+								public void onClick(DialogInterface dialog, int which)
+								{
+									dialog.dismiss();
+								}
+							})
+							.show();
 				}
 				else
 				{
@@ -179,8 +197,8 @@ public class MainActivity extends Activity
 				}
 			}
 		});
-		
-		
+
+
 		/* Set filtering via EditText. */
 		// Enables the List View to have text filter capability.
 		listView.setTextFilterEnabled(true);
@@ -209,6 +227,39 @@ public class MainActivity extends Activity
 			{
 			}
 		});
+	}
+
+	@TargetApi(Build.VERSION_CODES.M)
+	private void checkPermissions() {
+		int result;
+		List<String> listPermissionsNeeded = new ArrayList<>();
+		for (String p : permissions) {
+			result = checkSelfPermission(p);
+			if (result != PackageManager.PERMISSION_GRANTED) {
+				listPermissionsNeeded.add(p);
+			}
+		}
+		if (!listPermissionsNeeded.isEmpty()) {
+			requestPermissions(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+			case MULTIPLE_PERMISSIONS: {
+				if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+					closeAppFromDeniedPermission();
+				} else {
+					initialize();
+				}
+			}
+		}
+	}
+
+	private void closeAppFromDeniedPermission() {
+		Toast.makeText(getApplicationContext(), R.string.permission_denied, Toast.LENGTH_LONG).show();
+		finish();
 	}
 
 	@Override

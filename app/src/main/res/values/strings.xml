@@ -11,6 +11,7 @@
 	<string name="confirmation_yes">Proceed</string>
 	<string name="confirmation_no">Cancel</string>
 	<string name="no_selected">Please check a contact.</string>
+    <string name="permission_denied">Please allow all permissions to use the app.</string>
     
 
 </resources>
